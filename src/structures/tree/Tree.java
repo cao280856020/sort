@@ -1,22 +1,7 @@
 package structures.tree;
 
 public class Tree {
-	
-	Node root;
-	
-	public Node find(int iData){
-		Node current=root;
-		while(current!=null){
-			if(current.iData==iData){
-				break;
-			}else if(iData<current.iData){
-				current=current.leftChild;
-			}else{
-				current=current.rightChild;
-			}
-		}
-		return current;
-	}
+	private Node root;
 	
 	public void insert(int iData){
 		Node newNode=new Node();
@@ -26,32 +11,51 @@ public class Tree {
 			root=newNode;
 		}else{
 			Node current=root;
-			Node parent=root;
+			Node parent;
 			while(true){
 				parent=current;
 				if(iData<current.iData){
 					current=current.leftChild;
 					if(current==null){
 						parent.leftChild=newNode;
-						return;
+						break;
 					}
 				}else{
 					current=current.rightChild;
 					if(current==null){
 						parent.rightChild=newNode;
-						return;
+						break;
 					}
 				}
 			}
 		}
 	}
 	
+	public Node find(int iData){
+		Node current=root;
+		if(current==null){
+			return null;
+		}
+		while(current.iData!=iData){
+			if(iData<current.iData){
+				current=current.leftChild;
+				if(current==null){
+					return null;
+				}
+			}else{
+				current=current.rightChild;
+				if(current==null){
+					return null;
+				}
+			}
+		}
+		return current;
+	}
+	
 	public void inOrder(Node node){
 		if(node!=null){
 			inOrder(node.leftChild);
-			
 			System.out.print(node.iData+" ");
-			
 			inOrder(node.rightChild);
 		}
 	}
@@ -60,32 +64,16 @@ public class Tree {
 		if(node!=null){
 			
 			System.out.print(node.iData+" ");
-			
-			inOrder(node.leftChild);
-			
-			inOrder(node.rightChild);
+			preOrder(node.leftChild);
+			preOrder(node.rightChild);
 		}
 	}
 	
 	public void postOrder(Node node){
 		if(node!=null){
-			
-			inOrder(node.leftChild);
-			
-			inOrder(node.rightChild);
-			
+			postOrder(node.leftChild);
+			postOrder(node.rightChild);
 			System.out.print(node.iData+" ");
-		}
-	}
-	
-	private void deleteNoneChild(Node parent,Node delNode,boolean isLeftChild){
-		//判断是否有子节点
-		if(delNode==root){
-			root=null;
-		}else if(isLeftChild){
-			parent.leftChild=null;
-		}else{
-			parent.rightChild=null;
 		}
 	}
 	
@@ -94,80 +82,80 @@ public class Tree {
 			return false;
 		}
 		
-		Node parent=root;
 		Node current=root;
-		boolean isLeftChild=false;
+		Node parent=root;
+		boolean isLeftChild=true;
 		while(current.iData!=iData){
 			parent=current;
 			if(iData<current.iData){
-				isLeftChild=true;
 				current=current.leftChild;
+				isLeftChild=true;
 				if(current==null){
 					break;
 				}
 			}else{
-				isLeftChild=false;
 				current=current.rightChild;
+				isLeftChild=false;
 				if(current==null){
 					break;
 				}
 			}
 		}
-		if(current==null){//没找到要删除的节点
+		if(current==null){
 			return false;
 		}
-		
-		//删除节点无子节点时
 		if(current.leftChild==null && current.rightChild==null){
-			deleteNoneChild(parent,current,isLeftChild);
+			if(root==current){
+				root=null;
+			}else if(isLeftChild){
+				parent.leftChild=null;
+			}else{
+				parent.rightChild=null;
+			}
 		}else if(current.leftChild==null){
-			deleteOneNode(parent,current,current.rightChild,isLeftChild);
+			if(root==current){
+				root=current.rightChild;
+			}else if(isLeftChild){
+				parent.leftChild=current.rightChild;
+			}else{
+				parent.rightChild=current.rightChild;
+			}
 		}else if(current.rightChild==null){
-			deleteOneNode(parent,current,current.leftChild,isLeftChild);
+			if(root==current){
+				root=current.leftChild;
+			}else if(isLeftChild){
+				parent.leftChild=current.leftChild;
+			}else{
+				parent.rightChild=current.leftChild;
+			}
 		}else{
-			deleteTwoNode(parent,current,isLeftChild);
+			Node successor=getSuccessor(current);
+			if(current==root){
+				root=successor;
+			}else if(isLeftChild){
+				parent.leftChild=successor;
+			}else{
+				parent.rightChild=successor;
+			}
+			successor.leftChild=current.leftChild;
 		}
+		
 		return true;
 	}
-	
-	private void deleteOneNode(Node parent,Node delNode,Node childNode,boolean isLeftChild){
-		if(delNode==root){
-			root=childNode;
-		}else if(isLeftChild){
-			parent.leftChild=childNode;
-		}else{
-			parent.rightChild=childNode;
-		}
-	}
-	
-	private Node getSuccessorNode(Node delNode){
-		Node successorParent = delNode;
-		Node successor = delNode;
-		Node current = delNode.rightChild;
+	private Node getSuccessor(Node delNode){
+		Node successorParent=delNode;
+		Node successor=delNode;
+		Node current=delNode.rightChild;
 		
 		while(current!=null){
-			successorParent = current;
-			successor = current;
-			current = current.leftChild;
+			successorParent=successor;
+			successor=current;
+			current=current.leftChild;
 		}
-		
 		if(successor!=delNode.rightChild){
 			successorParent.leftChild=successor.rightChild;
 			successor.rightChild=delNode.rightChild;
 		}
-		
 		return successor;
-	}
-	
-	private void deleteTwoNode(Node parent,Node delNode,boolean isLeftChild){
-		Node successor=getSuccessorNode(delNode);
-		if(delNode==root){
-			root=successor;
-		}else if(isLeftChild){
-			parent.leftChild=successor;
-		}else{
-			parent.rightChild=successor;
-		}
-		successor.leftChild=delNode.leftChild;
 	}
 }
