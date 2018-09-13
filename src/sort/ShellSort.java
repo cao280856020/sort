@@ -1,18 +1,13 @@
 package sort;
 
-public class ShellSortTest {
+public class ShellSort {
+	
 	static int[] array={5,6,2,1,8,9,0,7,3,4};
-	
-	static void print(){
-		for(int a:array){
-			System.out.print(a+" ");
-		}
-	}
-	
+
 	static void sort(){
 		int h=1;
 		while(h<=array.length){
-			h=h*3+1;
+			h=3*h+1;
 		}
 		while(h>0){
 			for(int out=h;out<array.length;out++){
@@ -29,9 +24,10 @@ public class ShellSortTest {
 	}
 	
 	public static void main(String[] args) {
-
 		sort();
-		print();
-	}
+		for(int a:array){
+			System.out.print(a+" ");
+		}
 
+	}
 }

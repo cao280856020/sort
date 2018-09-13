@@ -1,7 +1,8 @@
-package structures.tree;
+package structures.trees;
 
 public class Node {
-	int iData;
+
+	int key;
 	Node leftChild;
 	Node rightChild;
 }

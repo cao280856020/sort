@@ -1,19 +1,23 @@
-package structures.heap;
+package structures.heapSort;
 
 public class Heap {
 
 	private Node[] heapArray;
+	
 	private int maxSize;
+	
 	private int currentSize;
 	
-	public Heap(int mx){
-		maxSize = mx;
-		currentSize = 0;
-		heapArray = new Node[maxSize];
+	public Heap(int max){
+		this.maxSize=max;
+		this.currentSize=0;
+		this.heapArray=new Node[max];
 	}
+
 	public boolean isEmpty(){
-		return currentSize == 0;
+		return currentSize==0;
 	}
+	
 	private void trickleUp(int index){
 		int parentIndex=(index-1)/2;
 		Node bottom=heapArray[index];
@@ -24,53 +28,56 @@ public class Heap {
 		}
 		heapArray[index]=bottom;
 	}
+	
 	public boolean insert(int key){
-		if(currentSize==maxSize){
+		if(currentSize>=maxSize){
 			return false;
 		}
+		
 		Node newNode=new Node(key);
 		heapArray[currentSize]=newNode;
-		trickleUp(currentSize++);
+		this.trickleUp(currentSize++);
 		return true;
 	}
+	
+	private void trickleDown(int index){
+		Node top=heapArray[index];
+		int largerIndex=0;
+		while(index<currentSize/2){
+			int leftChild=index*2+1;
+			int rightChild=leftChild+1;
+			if(heapArray[leftChild].getKey()<heapArray[rightChild].getKey()){
+				largerIndex=rightChild;
+			}else{
+				largerIndex=leftChild;
+			}
+			if(top.getKey()>=heapArray[largerIndex].getKey()){
+				break;
+			}
+			heapArray[index]=heapArray[largerIndex];
+			index=largerIndex;
+		}
+		heapArray[index]=top;
+	}
+	
 	public Node remove(){
 		Node root=heapArray[0];
 		heapArray[0]=heapArray[--currentSize];
 		trickleDown(0);
 		return root;
 	}
-	private void trickleDown(int index){
-		Node top=heapArray[index];
-		int largerChild;
-		while(index < currentSize/2){
-			int leftChild = 2*index+1;
-			int rightChild = leftChild+1;
-			if(heapArray[leftChild].getKey()<heapArray[rightChild].getKey()){
-				largerChild=rightChild;
-			}else{
-				largerChild=leftChild;
-			}
-			if(top.getKey()>=heapArray[largerChild].getKey()){
-				break;
-			}
-			heapArray[index]=heapArray[largerChild];
-			index=largerChild;
-		}
-		heapArray[index]=top;
-	}
+	
 	public boolean change(int index,int newValue){
 		if(index<0 || index>=currentSize){
 			return false;
 		}
 		int oldValue=heapArray[index].getKey();
 		heapArray[index].setKey(newValue);
-		
 		if(oldValue<newValue){
-			trickleUp(index);
+			this.trickleUp(index);
 		}else{
-			trickleDown(index);
+			this.trickleDown(index);
 		}
-		
 		return true;
 	}
 }

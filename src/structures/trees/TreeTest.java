@@ -1,4 +1,4 @@
-package structures.tree;
+package structures.trees;
 
 public class TreeTest {
 
@@ -30,23 +30,23 @@ public class TreeTest {
 		tree.insert(16);
 		tree.insert(11);
 		
-		System.out.println("iData is "+tree.find(12).iData);
+//		System.out.println("iData is "+tree.find(112).key);
 		
 //		System.out.println("getSuccessor is "+tree.getSuccessor(tree.find(10)).iData);
 
-		tree.findDeleteNode(10);
-		
+		tree.delete(8);
+//		
 		tree.inOrder(tree.find(5));
-		
-		System.out.println();
-		
-		tree.preOrder(tree.find(5));
-		
-		System.out.println();
-		
-		tree.postOrder(tree.find(5));
-		
-		System.out.println();
+//		
+//		System.out.println();
+//		
+//		tree.preOrder(tree.find(5));
+//		
+//		System.out.println();
+//		
+//		tree.postOrder(tree.find(5));
+//		
+//		System.out.println();
 		
 //		System.out.println("minium is "+tree.minium().iData);
 		
