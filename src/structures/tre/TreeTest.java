@@ -1,7 +1,8 @@
-package structures.tree;
+package structures.tre;
+
+import structures.tre.Tree;
 
 public class TreeTest {
-
 	/*
 	 *      5
 	 *    2   6
@@ -30,11 +31,11 @@ public class TreeTest {
 		tree.insert(16);
 		tree.insert(11);
 		
-		System.out.println("iData is "+tree.find(11).getKey());
+		System.out.println("iData is "+tree.find(11).key);
 		
 //		System.out.println("getSuccessor is "+tree.getSuccessor(tree.find(10)).iData);
 
-		tree.delete(10);
+		tree.delete(3);
 //		
 		tree.inOrder(tree.find(5));
 //		
@@ -52,5 +53,4 @@ public class TreeTest {
 		
 //		System.out.println("maxium is "+tree.maxium().iData);
 	}
-
 }

@@ -1,19 +1,17 @@
-package structures.trees;
+package structures.tre;
 
 public class Tree {
-	
-	private Node root;
+
+	Node root;
 	
 	public void insert(int key){
-		Node newNode=new Node();
-		newNode.key=key;
-		
+		Node newNode=new Node(key);
 		if(root==null){
 			root=newNode;
 		}else{
-			Node current=root;
-			Node parent;
-			while(current.key!=key){
+			Node parent = null;
+			Node current = root;
+			while(current != null){
 				parent=current;
 				if(key<current.key){
 					current=current.leftChild;
@@ -31,12 +29,10 @@ public class Tree {
 			}
 		}
 	}
-	
 	public Node find(int key){
 		if(root==null){
 			return null;
 		}
-		
 		Node current=root;
 		while(current.key!=key){
 			if(key<current.key){
@@ -51,60 +47,41 @@ public class Tree {
 				}
 			}
 		}
-		
 		return current;
-		
 	}
-	
 	public void inOrder(Node node){
-		if(node!=null){
+		if(node != null){
 			inOrder(node.leftChild);
 			System.out.print(node.key+" ");
 			inOrder(node.rightChild);
 		}
 	}
 	
-	public Node getSuccessor(Node delNode){
-		Node parentSuccessor=delNode;
-		Node successor=delNode;
-		Node current=delNode.rightChild;
-		while(current!=null){
-			parentSuccessor=successor;
-			successor=current;
-			current=current.leftChild;
-		}
-		if(successor!=delNode.rightChild){
-			parentSuccessor.leftChild=successor.rightChild;
-			successor.rightChild=delNode.rightChild;
-		}
-		return successor;
-	}
-	
-	public boolean delete(int key){
+	public void delete(int key){
 		if(root==null){
-			return false;
+			return;
 		}
-		boolean isLeftChild=true;
+		Node parent=null;
 		Node current=root;
-		Node parent = null;
+		boolean isLeftChild=true;
 		while(current.key!=key){
 			parent=current;
 			if(key<current.key){
-				isLeftChild=true;
 				current=current.leftChild;
+				isLeftChild=true;
 				if(current==null){
 					break;
 				}
 			}else{
-				isLeftChild=false;
 				current=current.rightChild;
+				isLeftChild=false;
 				if(current==null){
 					break;
 				}
 			}
 		}
 		if(current==null){
-			return false;
+			return;
 		}
 		if(current.leftChild==null && current.rightChild==null){
 			if(root==current){
@@ -131,17 +108,30 @@ public class Tree {
 				parent.rightChild=current.leftChild;
 			}
 		}else{
-			Node delNode=getSuccessor(current);
-			if(current==delNode){
-				root=delNode;
+			Node successor=getSuccessor(current);
+			if(root==current){
+				root=successor;
 			}else if(isLeftChild){
-				parent.leftChild=delNode;
+				parent.leftChild=successor;
 			}else{
-				parent.rightChild=delNode;
+				parent.rightChild=successor;
 			}
-			delNode.leftChild=current.leftChild;
+			successor.leftChild=current.leftChild;
 		}
-		
-		return true;
+	}
+	private Node getSuccessor(Node delNode){
+		Node parentSuccessor=delNode;
+		Node successor=delNode;
+		Node current=delNode.rightChild;
+		while(current!=null){
+			parentSuccessor=successor;
+			successor=current;
+			current=current.leftChild;
+		}
+		if(successor!=delNode.rightChild){
+			parentSuccessor.leftChild=successor.rightChild;
+			successor.rightChild=delNode.rightChild;
+		}
+		return successor;
 	}
 }

@@ -1,75 +1,81 @@
 package sort;
 
+import java.util.Random;
+
 public class MergeSort {
 	
-	private int elements;
-	private int[] theArray;
+	private int[] array;
 	
-	private int[] workSpace;
+	private int element;
 	
 	public MergeSort(int max){
-		this.elements=0;
-		this.theArray=new int[max];
+		array=new int[max];
+		element=0;
 	}
 	
-	public void insert(int value){
-		this.theArray[elements++]=value;
+	public void insert(int data){
+		array[element++]=data;
 	}
 	
-	private void merge(int lowPtr,int highPtr,int upperBound){
+	public boolean isEmpty(){
+		return element==0;
+	}
+	
+	public void merge(int[] workSpace,int lowerPtr,int highPtr,int upperBound){
 		int j=0;
-		int lowerBound=lowPtr;
+		int lowerBound=lowerPtr;
 		int mid=highPtr-1;
 		int n=(upperBound-lowerBound)+1;
 		
-		while(lowPtr<=mid && highPtr<=upperBound){
-			if(theArray[lowPtr]<theArray[highPtr]){
-				workSpace[j++]=theArray[lowPtr++];
+		while(lowerPtr<=mid && highPtr<=upperBound){
+			if(array[lowerPtr]<=array[highPtr]){
+				workSpace[j++]=array[lowerPtr++];
 			}else{
-				workSpace[j++]=theArray[highPtr++];
+				workSpace[j++]=array[highPtr++];
 			}
 		}
-		while(lowPtr<=mid){
-			workSpace[j++]=theArray[lowPtr++];
+		
+		while(lowerPtr<=mid){
+			workSpace[j++]=array[lowerPtr++];
 		}
 		while(highPtr<=upperBound){
-			workSpace[j++]=theArray[highPtr++];
+			workSpace[j++]=array[highPtr++];
 		}
+		
 		for(int i=0;i<n;i++){
-			theArray[lowerBound+i]=workSpace[i];
+			array[lowerBound+i]=workSpace[i];
 		}
 	}
 	
-	private void reMergeSort(int lowerBound,int upperBound){
+	public void reMergeSort(int[] workSpace,int lowerBound,int upperBound){
 		if(lowerBound==upperBound){
 			return;
 		}else{
 			int mid=(lowerBound+upperBound)/2;
-			reMergeSort(lowerBound,mid);
-			reMergeSort(mid+1,upperBound);
-			merge(lowerBound,mid+1,upperBound);
+			reMergeSort(workSpace,lowerBound,mid);
+			reMergeSort(workSpace,mid+1,upperBound);
+			merge(workSpace,lowerBound,mid+1,upperBound);
 		}
+		
 	}
 	
-	public void mergeSort(){
-		workSpace=new int[elements];
-		this.reMergeSort(0, elements-1);
+	public void sort(){
+		int[] workSpace=new int[element];
+		reMergeSort(workSpace,0,element-1);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args){
+		MergeSort sort=new MergeSort(10);
+		sort.insert(2);
+		sort.insert(4);
+		sort.insert(1);
+		sort.insert(3);
+		sort.insert(6);
+		sort.insert(5);
+		sort.sort();
 		
-		MergeSort m=new MergeSort(10);
-		m.insert(2);
-		m.insert(3);
-		m.insert(5);
-		m.insert(1);
-		m.insert(6);
-		m.insert(8);
-		m.mergeSort();
-		
-		for(int i=0;i<m.elements;i++){
-			System.out.print(m.theArray[i]+" ");
+		for(int i=0;i<sort.element;i++){
+			System.out.print(sort.array[i]+" ");
 		}
 	}
-
 }
