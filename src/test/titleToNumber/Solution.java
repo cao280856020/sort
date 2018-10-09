@@ -5,6 +5,8 @@ public class Solution {
 	
 	public static void main(String[] args){
 		Solution s=new Solution();
+		System.out.println(LENGTH<<2);
+		System.out.println(s.titleToNumber("ZY"));
 		System.out.println(s.titleToNumber("AAA"));
 	}
 	
@@ -24,18 +26,19 @@ public class Solution {
         for(int i=s.length()-1;i>=0;i--){
         	sb.append(s.charAt(i));
         }
-        System.out.println(sb.toString());
         
         for(int i=s.toString().length()-1;i>=0;i--){
         	String temp=String.valueOf(sb.toString().charAt(i));
+        	
+        	for(int in=0;in<i;in++){
+        	}
+        	
+        	
         	if(i==0){
         		result+=STR.indexOf(temp);
-        	}else if(i>1){
-        		for(int in=1;in<i;in++){
-        			result+=LENGTH*LENGTH;
-        		}
         	}else{
-            	result+=STR.indexOf(temp)*LENGTH;
+        		int j=LENGTH<<(i+1);
+            	result+=STR.indexOf(temp)*j;
         	}
         }
         return result;
