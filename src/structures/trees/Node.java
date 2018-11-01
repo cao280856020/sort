@@ -2,8 +2,8 @@ package structures.trees;
 
 public class Node {
 	public int key;
-	public Node leftChild;
-	public Node rightChild;
+	public Node left;
+	public Node right;
 	public Node(int key){
 		this.key=key;
 	}

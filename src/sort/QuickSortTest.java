@@ -5,16 +5,18 @@ public class QuickSortTest {
 	
 	static void printList(){
 		for(int a:array){
-			System.out.print(a+" ");
+			System.out.print(" "+a);
 		}
 	}
+	
 	static void swap(int i,int j){
 		int temp=array[i];
 		array[i]=array[j];
 		array[j]=temp;
 	}
+	
 	static void manualSort(int left,int right,int size){
-		if(size<=1){
+		if(size==1){
 			return;
 		}else if(size==2){
 			if(array[left]>array[right]){
@@ -32,6 +34,7 @@ public class QuickSortTest {
 			}
 		}
 	}
+	
 	static int getPivot(int left,int right){
 		int center=(left+right)/2;
 		if(array[left]>array[right]){
@@ -47,33 +50,39 @@ public class QuickSortTest {
 		swap(center,right-1);
 		return pivot;
 	}
+	
 	static int getPartition(int left,int right,int pivot){
-		int leftScan=left;
-		int rightScan=right-1;
+		int leftPtr=left;
+		int rightPtr=right-1;
 		while(true){
-			while(array[++leftScan]<pivot);
-			while(array[--rightScan]>pivot);
-			
-			if(leftScan>=rightScan){
+			while(array[++leftPtr]<pivot);
+			while(array[--rightPtr]>pivot);
+			if(leftPtr>=rightPtr){
 				break;
 			}else{
-				swap(leftScan,rightScan);
+				swap(leftPtr,rightPtr);
 			}
 		}
-		swap(leftScan,right-1);
-		return leftScan;
+		swap(leftPtr,right-1);
+		return leftPtr;
 	}
-	static void quickSort(int left,int right){
+	
+	static void reQuickSort(int left,int right){
 		int size=right-left+1;
 		if(size<=3){
 			manualSort(left,right,size);
 		}else{
 			int pivot=getPivot(left,right);
 			int partition=getPartition(left,right,pivot);
-			quickSort(left,partition-1);
-			quickSort(partition+1,right);
+			reQuickSort(left,partition-1);
+			reQuickSort(partition+1,right);
 		}
 	}
+	
+	static void quickSort(int left,int right){
+		reQuickSort(left,right);
+	}
+	
 	public static void main(String[] args) {
 		quickSort(0,array.length-1);
 

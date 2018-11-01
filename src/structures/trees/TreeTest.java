@@ -3,7 +3,7 @@ package structures.trees;
 import structures.trees.Tree;
 
 public class TreeTest {
-
+	
 	/*
 	 *      5
 	 *    2   6
@@ -13,7 +13,7 @@ public class TreeTest {
 	 *           11 
 	 *         
 	 */
-	
+
 	public static void main(String[] args) {
 		Tree tree=new Tree();
 		
@@ -34,25 +34,9 @@ public class TreeTest {
 		
 		System.out.println("iData is "+tree.find(11).key);
 		
-//		System.out.println("getSuccessor is "+tree.getSuccessor(tree.find(10)).iData);
-
-		tree.delete(3);
-//		
+		tree.delete(12);
+		
 		tree.inOrder(tree.find(5));
-//		
-//		System.out.println();
-//		
-//		tree.preOrder(tree.find(5));
-//		
-//		System.out.println();
-//		
-//		tree.postOrder(tree.find(5));
-//		
-//		System.out.println();
-		
-//		System.out.println("minium is "+tree.minium().iData);
-		
-//		System.out.println("maxium is "+tree.maxium().iData);
 	}
 
 }

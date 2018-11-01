@@ -1,125 +1,132 @@
 package structures.trees;
 
 public class Tree {
-	Node root;
+	private Node root;
+	
+	public void inOrder(Node node){
+		if(node!=null){
+			inOrder(node.left);
+			System.out.print(" "+node.key);
+			inOrder(node.right);
+		}
+	}
+	
 	public void insert(int key){
 		Node nNode=new Node(key);
 		if(root==null){
 			root=nNode;
 			return;
 		}
-		Node current=root;
-		Node parent=null;
-		while(current.key!=key){
-			parent=current;
-			if(key<current.key){
-				current=current.leftChild;
-				if(current==null){
-					parent.leftChild=nNode;
-					break;
+		Node cur=root;
+		Node parent;
+		while(cur!=null){
+			parent=cur;
+			if(key<cur.key){
+				cur=cur.left;
+				if(cur==null){
+					parent.left=nNode;
 				}
 			}else{
-				current=current.rightChild;
-				if(current==null){
-					parent.rightChild=nNode;
-					break;
+				cur=cur.right;
+				if(cur==null){
+					parent.right=nNode;
 				}
 			}
 		}
 	}
+	
 	public Node find(int key){
-		Node current=root;
-		while(current.key!=key){
-			if(key<current.key){
-				current=current.leftChild;
-				if(current==null){
+		if(root==null){
+			return null;
+		}
+		Node cur=root;
+		while(cur.key!=key){
+			if(key<cur.key){
+				cur=cur.left;
+				if(cur==null){
 					break;
 				}
 			}else{
-				current=current.rightChild;
-				if(current==null){
+				cur=cur.right;
+				if(cur==null){
 					break;
 				}
 			}
 		}
-		return current;
-	}
-	public Node getSuccessor(Node delNode){
-		Node parentSuccessor=delNode;
-		Node successor=delNode;
-		Node current=delNode.rightChild;
-		while(current!=null){
-			parentSuccessor=successor;
-			successor=current;
-			current=current.leftChild;
-		}
-		if(successor!=delNode.rightChild){
-			parentSuccessor.leftChild=successor.rightChild;
-			successor.rightChild=delNode.rightChild;
-		}
-		return successor;
+		return cur;
 	}
 	public void delete(int key){
-		Node current=root;
+		Node cur=root;
 		Node parent=null;
-		boolean isLeftChild=true;
-		while(current.key!=key){
-			parent=current;
-			if(key<current.key){
-				current=current.leftChild;
-				isLeftChild=true;
-				if(current==null){
-					return;
+		boolean isLeft=true;
+		while(cur.key!=key){
+			parent=cur;
+			if(key<cur.key){
+				cur=cur.left;
+				isLeft=true;
+				if(cur==null){
+					break;
 				}
 			}else{
-				current=current.rightChild;
-				isLeftChild=false;
-				if(current==null){
-					return;
+				cur=cur.right;
+				isLeft=false;
+				if(cur==null){
+					break;
 				}
 			}
 		}
-		if(current.leftChild==null&&current.rightChild==null){
-			if(root==current){
+		if(cur==null){
+			return;
+		}
+		if(cur.left==null&&cur.right==null){
+			if(root==cur){
 				root=null;
-			}else if(isLeftChild){
-				parent.leftChild=null;
+			}else if(isLeft){
+				parent.left=null;
 			}else{
-				parent.rightChild=null;
+				parent.right=null;
 			}
-		}else if(current.leftChild==null){
-			if(root==current){
-				root=current.rightChild;
-			}else if(isLeftChild){
-				parent.leftChild=current.rightChild;
+		}else if(cur.left==null){
+			if(root==cur){
+				root=cur.right;
+			}else if(isLeft){
+				parent.left=cur.right;
 			}else{
-				parent.rightChild=current.rightChild;
+				parent.right=cur.right;
 			}
-		}else if(current.rightChild==null){
-			if(root==current){
-				root=current.leftChild;
-			}else if(isLeftChild){
-				parent.leftChild=current.leftChild;
+		}else if(cur.right==null){
+			if(root==cur){
+				root=cur.left;
+			}else if(isLeft){
+				parent.left=cur.left;
 			}else{
-				parent.rightChild=current.leftChild;
+				parent.right=cur.left;
 			}
 		}else{
-			Node successor=getSuccessor(current);
-			if(root==current){
+			Node successor=getSuccessor(cur);
+			if(root==cur){
 				root=successor;
-			}else if(isLeftChild){
-				parent.leftChild=successor;
+			}else if(isLeft){
+				parent.left=successor;
 			}else{
-				parent.rightChild=successor;
+				parent.right=successor;
 			}
-			successor.leftChild=current.leftChild;
+			successor.left=cur.left;
 		}
 	}
-	public void inOrder(Node node){
-		if(node!=null){
-			inOrder(node.leftChild);
-			System.out.print(" "+node.key);
-			inOrder(node.rightChild);
+	private Node getSuccessor(Node delNode){
+		Node parentSuccessor=delNode;
+		Node successor=delNode;
+		Node cur=delNode.right;
+		while(cur!=null){
+			parentSuccessor=successor;
+			successor=cur;
+			cur=cur.left;
 		}
+		if(successor!=delNode.right){
+			parentSuccessor.left=successor.right;
+			successor.right=delNode.right;
+		}
+		return successor;
 	}
 }

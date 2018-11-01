@@ -5,13 +5,18 @@ public class Solution {
 	ListNode head;
 
 	public void deleteNode(ListNode node) {
-        ListNode pre=head;
+		ListNode nNode=new ListNode(head.val);
         ListNode current=head;
-        while(current.val!=node.val){
-        	pre=current;
-        	current=current.next;
+        while(current!=null){
+        	if(current.val!=node.val){
+        		ListNode temp=current.next;
+            	current=temp;
+        		nNode.next=temp;
+        	}else{
+        		current=current.next;
+        	}
         }
-        pre.next=current.next;
+        head=nNode;
     }
 	
 	public static void main(String[] args) {
