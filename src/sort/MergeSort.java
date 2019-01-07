@@ -13,28 +13,30 @@ public class MergeSort {
 	private void insert(int key){
 		this.array[this.element++]=key;
 	}
+	
 	private void merge(int[] workSpace,int lower,int high,int upperBound){
 		int j=0;
 		int lowerBound=lower;
 		int mid=high-1;
-		int n=upperBound-lowerBound+1;
+		int n=upperBound-lowerBound;
 		while(lower<=mid && high<=upperBound){
 			if(array[lower]<array[high]){
-				workSpace[j++]=this.array[lower++];
+				workSpace[j++]=array[lower++];
 			}else{
-				workSpace[j++]=this.array[high++];
+				workSpace[j++]=array[high++];
 			}
 		}
 		while(lower<=mid){
-			workSpace[j++]=this.array[lower++];
+			workSpace[j++]=array[lower++];
 		}
 		while(high<=upperBound){
-			workSpace[j++]=this.array[high++];
+			workSpace[j++]=array[high++];
 		}
-		for(int i=0;i<n;i++){
+		for(int i=0;i<=n;i++){
 			array[lowerBound+i]=workSpace[i];
 		}
 	}
+	
 	private void reMergeSort(int[] workSpace,int lowerBound,int upperBound){
 		if(lowerBound==upperBound){
 			return;
@@ -45,6 +47,7 @@ public class MergeSort {
 			merge(workSpace,lowerBound,mid+1,upperBound);
 		}
 	}
+	
 	private void sort(){
 		int[] workSpace=new int[this.element];
 		reMergeSort(workSpace,0,this.element-1);
@@ -58,10 +61,6 @@ public class MergeSort {
 		sort.insert(6);
 		sort.insert(5);
 		sort.sort();
-		int a=1025;
-		System.out.println(a);
-		Byte b=Byte.valueOf("127");
-		System.out.println(b);
 		for(int i=0;i<sort.element;i++){
 			System.out.print(sort.array[i]+" ");
 		}
