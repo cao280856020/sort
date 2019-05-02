@@ -1,20 +1,18 @@
 package sort;
 
-public class QuickSort {
+public class QuickNew {
 
-//	static long[] array={4,1,54,6,7,8,19,43,12,22,33,11,222,444,0,9,86,2,3,10};
+	static int[] array={9,5,4,55,16,115,200,10,8,6,22,44,1,2,3,0,7,12,13,20,50,44,31};
 	
-	static int array[]={9,5,4,55,16,115,200,10,8,6,22,44,1,2,3,0,7,12,13,20,50,44,31};
-	
-	//交换索引值
 	static void swap(int i,int j){
 		int temp=array[i];
 		array[i]=array[j];
 		array[j]=temp;
 	}
-	static void print(int[] array){
+	
+	static void print(){
 		for(int a:array){
-			System.out.print(" "+a);
+			System.out.print(a+" ");
 		}
 	}
 	
@@ -39,18 +37,6 @@ public class QuickSort {
 	}
 	
 	static int getPivot(int left,int right){
-//		int center=(left+right)/2;
-//		System.out.println(center);
-//		if(array[left]>array[right]){
-//			swap(left,right);
-//		}else if(array[left]>array[center]){
-//			swap(left,center);
-//		}else if(array[center]>array[right]){
-//			swap(center,right);
-//		}
-//		int pivot=array[center];
-//		swap(center,right-1);
-//		return pivot;
 		int center=(left+right)/2;
 		if(array[left]>array[right]){
 			swap(left,right);
@@ -61,9 +47,9 @@ public class QuickSort {
 		if(array[center]>array[right]){
 			swap(center,right);
 		}
-		int pivote=array[center];
+		int pivot=array[center];
 		swap(center,right-1);
-		return pivote;
+		return pivot;
 	}
 	
 	static int getPartition(int left,int right,int pivot){
@@ -72,7 +58,7 @@ public class QuickSort {
 		while(true){
 			while(array[++leftPtr]<pivot);
 			while(array[--rightPtr]>pivot);
-			if(leftPtr>=rightPtr){
+			if(leftPtr>rightPtr){
 				break;
 			}else{
 				swap(leftPtr,rightPtr);
@@ -96,8 +82,7 @@ public class QuickSort {
 	
 	public static void main(String[] args) {
 		quickSort(0,array.length-1);
-		
-		print(array);//打印输出排序好的值
+		print();
 	}
 
 }

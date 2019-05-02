@@ -1,7 +1,8 @@
 package sort;
 
 public class QuickSortTest {
-	static int[] array={5,6,2,1,8,9,0,7,3,4};
+//	static int[] array={5,6,2,1,8,9,0,7,3,4};
+	static int array[]={9,5,4,55,16,115,200,10,8,6,22,44,1,2,3,0,7,12,13,20,50,44,31};
 	
 	static void printList(){
 		for(int a:array){
@@ -37,6 +38,7 @@ public class QuickSortTest {
 	
 	static int getPivot(int left,int right){
 		int center=(left+right)/2;
+		System.out.println(center);
 		if(array[left]>array[right]){
 			swap(left,right);
 		}
@@ -79,12 +81,8 @@ public class QuickSortTest {
 		}
 	}
 	
-	static void quickSort(int left,int right){
-		reQuickSort(left,right);
-	}
-	
 	public static void main(String[] args) {
-		quickSort(0,array.length-1);
+		reQuickSort(0,array.length-1);
 
 		printList();
 	}
